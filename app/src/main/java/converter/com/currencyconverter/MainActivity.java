@@ -4,13 +4,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity {
+
+	private EditText etAmount;
+	private ListView listView;
+	private Spinner spinner;
+	private Button convertButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		etAmount = (EditText) findViewById(R.id.editText_amount);
+		spinner = (Spinner) findViewById(R.id.spinner);
+		final MyAdapter adapter = new MyAdapter(this);
+		listView = (ListView) findViewById(R.id.listView);
+		listView.setAdapter(adapter);
+		convertButton = (Button) findViewById(R.id.button);
+		convertButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				int selectedPosition = spinner.getSelectedItemPosition();
+				adapter.setSourceAmount(etAmount.getText().toString());
+				adapter.setSelectedItem(selectedPosition);
+				adapter.notifyDataSetChanged();
+			}
+		});
+
 	}
 
 	@Override
